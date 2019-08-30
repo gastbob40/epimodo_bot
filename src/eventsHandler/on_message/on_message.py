@@ -1,11 +1,12 @@
 import discord
-import yaml
 
+from src.eventsHandler.on_message.mics.check_mentions import check_mentions
 from src.eventsHandler.on_message.mics.init_server import init_server
 from src.eventsHandler.on_message.moderation.add_ban import add_ban
 from src.eventsHandler.on_message.moderation.add_kick import add_kick
 from src.eventsHandler.on_message.moderation.add_mute import add_mute
 from src.eventsHandler.on_message.moderation.add_warn import add_warn
+from src.eventsHandler.on_message.moderation.clear_messages import clear_messages
 from src.eventsHandler.on_message.moderation.remove_mute import remove_mute
 
 
@@ -14,6 +15,8 @@ class OnMessage:
     async def run(client: discord.Client, message: discord.Message):
         if message.author.bot:
             return
+
+        await check_mentions(client, message)
 
         if message.content and message.content[0] != '?':
             return
@@ -35,3 +38,5 @@ class OnMessage:
             await add_mute(client, message, args)
         elif command == 'unmute':
             await remove_mute(client, message, args)
+        elif command == 'clear':
+            await clear_messages(client, message, args)
