@@ -1,6 +1,8 @@
 import discord
 
 from src.eventsHandler.on_message.mics.check_mentions import check_mentions
+from src.eventsHandler.on_message.mics.get_server import get_server
+from src.eventsHandler.on_message.mics.get_user import get_user
 from src.eventsHandler.on_message.mics.init_server import init_server
 from src.eventsHandler.on_message.moderation.add_ban import add_ban
 from src.eventsHandler.on_message.moderation.add_kick import add_kick
@@ -40,3 +42,8 @@ class OnMessage:
             await remove_mute(client, message, args)
         elif command == 'clear':
             await clear_messages(client, message, args)
+
+        elif command == 'server':
+            await get_server(client, message, args)
+        elif command == 'user':
+            await get_user(client, message, args)

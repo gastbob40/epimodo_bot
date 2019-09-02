@@ -14,7 +14,7 @@ async def check_mentions(client: discord.Client, message: discord.Message):
         .set_author(name="A message with important notification has been sent.",
                     icon_url="https://cdn4.iconfinder.com/data/icons/infy-interface/300/notification-512.png")
     embed.add_field(name=f'Message by {message.author.display_name}',
-                    value=message.content)
+                    value=message.content[:1200])
 
     state, results = api_manager.get_data('servers', discord_id=message.guild.id)
 

@@ -10,7 +10,7 @@ class EmbedsManager:
             .set_author(icon_url="https://cdn0.iconfinder.com/data/icons/shift-free/32/Complete_Symbol-512.png",
                         name="The command was successful.")
         embed.timestamp = datetime.now() - timedelta(hours=2)
-        embed.description = content[:2040]
+        embed.description = content
         return embed
 
     @staticmethod
@@ -19,7 +19,7 @@ class EmbedsManager:
             .set_author(icon_url="https://cdn0.iconfinder.com/data/icons/simply-orange-1/128/questionssvg-512.png",
                         name="Additional information.")
         embed.timestamp = datetime.now() - timedelta(hours=2)
-        embed.description = content[:2040]
+        embed.description = content
         return embed
 
     @staticmethod
@@ -28,7 +28,7 @@ class EmbedsManager:
             .set_author(icon_url="https://cdn0.iconfinder.com/data/icons/shift-free/32/Error-512.png",
                         name="An error has occurred.")
         embed.timestamp = datetime.now() - timedelta(hours=2)
-        embed.description = content[:2040]
+        embed.description = content
         return embed
 
     @staticmethod
