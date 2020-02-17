@@ -1,7 +1,8 @@
 address: news.epita.fr
+encoding: utf-8
 groups:
   assistants:
     name: assistants.news
-    last_update: "01/01/01 00:00:00"
+    last_update: "16/02/2020 00:00:00"
     channels:
       - 678944434242715648 # list of channel ids

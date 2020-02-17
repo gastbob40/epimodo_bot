@@ -9,6 +9,7 @@ class NewsGroupManager:
     NNTP:nntplib.NNTP = None
     address: str = None
     groups: Dict = None
+    encoding: str = None
 
     def init_connection(self):
         try:
@@ -19,5 +20,6 @@ class NewsGroupManager:
     def get_config(self):
         with open('run/config/newsgroups.yml', 'r') as file:
             config = yaml.safe_load(file)
-        self.address =  config["address"]
+        self.address = config["address"]
         self.groups = config["groups"]
+        self.encoding = config["encoding"]

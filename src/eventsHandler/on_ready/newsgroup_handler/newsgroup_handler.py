@@ -3,14 +3,14 @@ from src.utils.newsgroup_manager import NewsGroupManager
 import nntplib
 import discord
 from datetime import datetime
-import time
+import asyncio
 
 
 async def print_news(client: discord.Client, news_id: str, group_manager: NewsGroupManager) -> datetime:
     info = dict()
     head: nntplib.ArticleInfo = group_manager.NNTP.head(news_id)
     for l in head.lines:
-        s = l.split(":")
+        s = l.decode(group_manager.encoding).split(":")
         if len(s) != 2:
             continue
         info[s[0]] = s[1]
@@ -23,12 +23,13 @@ async def print_news(client: discord.Client, news_id: str, group_manager: NewsGr
     for l in body.lines:
         content += l + "\n"
 
-    # TODO : send to dicord
+
 
     return date
 
 
-async def get_news(client: discord.Client, group_manager: NewsGroupManager):
+async def get_news(client: discord.Client):
+    group_manager = NewsGroupManager()
     group_manager.get_config()
     group_manager.init_connection()
     while True:
@@ -40,6 +41,6 @@ async def get_news(client: discord.Client, group_manager: NewsGroupManager):
                 if d > last_update:
                     last_update = d
             group_manager.groups[group]["last_update"] = last_update.strftime("%d/%m/%Y %H:%M:%S")
-            time.sleep(60) # TODO change to async maybe
+            await asyncio.sleep(60)
 
 
