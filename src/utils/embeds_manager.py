@@ -46,5 +46,14 @@ class EmbedsManager:
 
         return embed
 
+    @staticmethod
+    def newsgroup_embed(content):  # TODO: TEMP add author etc ...
+        embed = discord.Embed(color=0xD72727) \
+            .set_author(icon_url="https://cdn0.iconfinder.com/data/icons/shift-free/32/Error-512.png",
+                        name="News.")
+        embed.timestamp = datetime.now() - timedelta(hours=2)
+        embed.description = content
+        return embed
+
 
 

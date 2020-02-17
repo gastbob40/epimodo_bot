@@ -1,0 +1,7 @@
+address: news.epita.fr
+groups:
+  assistants:
+    name: assistants.news
+    last_update: "01/01/01 00:00:00"
+    channels:
+      - 678944434242715648 # list of channel ids
