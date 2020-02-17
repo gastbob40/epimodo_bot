@@ -63,5 +63,15 @@ class EmbedsManager:
         embed.set_footer(text=group)
         return embed
 
+    @staticmethod
+    def newsgroup_filler_embed(msg, author, date: datetime, group):
+        embed = discord.Embed(color=0x0080ff)
+        parts = [msg[i:i+1024] for i in range(0, len(msg), 1024)]
+        embed.add_field(name="{}\n{}".format(author, date.strftime("%a, %d %b %Y %H:%M")), value=parts[0], inline=False)
+        for i in range(1, len(parts)):
+            embed.add_field(name="​", value=parts[i], inline=False)
+        embed.set_footer(text=group)
+        return embed
+
 
 
