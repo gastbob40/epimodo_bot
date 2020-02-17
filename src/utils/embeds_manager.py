@@ -1,5 +1,6 @@
 from datetime import datetime, timedelta
 import discord
+from random import randint
 
 
 class EmbedsManager:
@@ -44,6 +45,22 @@ class EmbedsManager:
 
         embed.timestamp = datetime.now() - timedelta(hours=2)
 
+        return embed
+
+    colors = ["css\n", "http\n", "cs\n# ", "yaml\n", "md\n# ", ""]
+
+    @staticmethod
+    def newsgroup_embed(title, tags, msg, author, date: datetime, group):
+        embed = discord.Embed(color=0x0080ff, title=title)
+        color = randint(0, 4)
+        for tag in tags:
+            embed.add_field(name="​", value="```{}{}```".format(EmbedsManager.colors[color], tag), inline=True)
+            color = randint(0, 4)
+        parts = [msg[i:i+1024] for i in range(0, len(msg), 1024)]
+        embed.add_field(name="{}\n{}".format(author, date.strftime("%a, %d %b %Y %H:%M")), value=parts[0], inline=False)
+        for i in range(1, len(parts)):
+            embed.add_field(name="​", value=parts[i], inline=False)
+        embed.set_footer(text=group)
         return embed
 
 
