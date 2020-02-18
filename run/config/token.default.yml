@@ -1,5 +1,2 @@
-prefix: '?'
-token: ~
-
-guild_id: ~
-category_id: ~
+discord_token: ~
+epimodo_website_token: ~
