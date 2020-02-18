@@ -1,5 +1,6 @@
 address: news.epita.fr
 encoding: utf-8
+delta_time: 60
 groups:
   assistants:
     name: assistants.news

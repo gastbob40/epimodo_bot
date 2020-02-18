@@ -68,7 +68,7 @@ async def get_news(client: discord.Client):
                         last_update = d
                 group_manager.groups[group]["last_update"] = (last_update + timedelta(seconds=42)).strftime(
                     "%d/%m/%Y %H:%M:%S")
-                await asyncio.sleep(60)
+                await asyncio.sleep(group_manager.delta_time)
             except:
                 print("Unexpected error for group " + group_manager.groups[group]["name"])
 

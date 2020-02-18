@@ -6,10 +6,11 @@ from datetime import datetime
 
 class NewsGroupManager:
 
-    NNTP:nntplib.NNTP = None
+    NNTP: nntplib.NNTP = None
     address: str = None
     groups: Dict = None
     encoding: str = None
+    delta_time: str = None
 
     def init_connection(self):
         try:
@@ -23,3 +24,4 @@ class NewsGroupManager:
         self.address = config["address"]
         self.groups = config["groups"]
         self.encoding = config["encoding"]
+        self.delta_time = config["delta_time"]
