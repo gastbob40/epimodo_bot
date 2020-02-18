@@ -138,3 +138,6 @@ config.yml
 database.db
 permissions.yml
 tokens.yml
+
+# VS Code files
+.vscode
