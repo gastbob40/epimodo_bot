@@ -18,7 +18,7 @@ client = discord.Client()
 
 @client.event
 async def on_ready():
-    EventsHandler.on_ready(client)
+    await EventsHandler.on_ready(client)
 
 
 @client.event

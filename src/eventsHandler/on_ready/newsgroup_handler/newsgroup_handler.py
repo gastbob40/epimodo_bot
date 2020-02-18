@@ -2,7 +2,7 @@ from typing import *
 from src.utils.newsgroup_manager import NewsGroupManager
 from src.utils.embeds_manager import EmbedsManager
 import discord
-from datetime import datetime
+from datetime import datetime, timedelta
 import asyncio
 import nntplib
 
