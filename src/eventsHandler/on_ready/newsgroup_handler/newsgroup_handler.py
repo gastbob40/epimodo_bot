@@ -13,7 +13,6 @@ async def print_news(client: discord.Client, news_id: str, group:str, group_mana
     last = "NULL"
     for l in head.lines:
         s = l.decode(group_manager.encoding).split(": ", 1)
-        print(s)
         if len(s) != 2:
             info[last] = info[last] + nntplib.decode_header(s[0])
             continue
@@ -63,13 +62,17 @@ async def get_news(client: discord.Client):
                                                           "%d/%m/%Y %H:%M:%S")
                 _, news = group_manager.NNTP.newnews(group_manager.groups[group]["name"], last_update)
                 for i in news:
-                    d: datetime = await print_news(client, i, group, group_manager)
-                    if d > last_update:
-                        last_update = d
+                    try:
+                        d: datetime = await print_news(client, i, group, group_manager)
+                        if d > last_update:
+                            last_update = d
+                    except Exception as exe:
+                        print("Unexpected error for news " + i)
+                        print(exe)
                 group_manager.groups[group]["last_update"] = (last_update + timedelta(seconds=42)).strftime(
                     "%d/%m/%Y %H:%M:%S")
-                await asyncio.sleep(group_manager.delta_time)
-            except:
+            except Exception as exe:
                 print("Unexpected error for group " + group_manager.groups[group]["name"])
-
+                print(exe)
+        await asyncio.sleep(int(group_manager.delta_time))
 
