@@ -31,4 +31,9 @@ async def on_reaction_add(reaction, user):
     await EventsHandler.on_reaction_add(client, reaction, user)
 
 
+@client.event
+async def on_member_join(member):
+    await EventsHandler.on_member_join(client, member)
+
+
 client.run(tokens['discord_token'])

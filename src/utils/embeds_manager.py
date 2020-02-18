@@ -73,5 +73,12 @@ class EmbedsManager:
         embed.set_footer(text=group)
         return embed
 
+    @staticmethod
+    def welcome_msg_embed(msg_fr, msg_eng):
+        embed = discord.Embed(color=0x00ae00)
+        embed.add_field(name="FR", value=msg_fr, inline=False)
+        embed.add_field(name="UK/US", value=msg_eng, inline=False)
+        return embed
+
 
 
