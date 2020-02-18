@@ -1,5 +1,8 @@
 # EpiModo
 
+![Discord](https://img.shields.io/badge/Discord-project-brightgreen)
+![python](https://img.shields.io/badge/Language-Python-blueviolet)
+
 ## About
 
 EpiModo is a discord bot for server moderation, and includes several points:
