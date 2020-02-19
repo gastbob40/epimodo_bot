@@ -69,8 +69,9 @@ async def get_news(client: discord.Client):
                     except Exception as exe:
                         print("Unexpected error for news " + i)
                         print(exe)
-                group_manager.groups[group]["last_update"] = (last_update + timedelta(seconds=42)).strftime(
-                    "%d/%m/%Y %H:%M:%S")
+                group_manager.groups[group]["last_update"] = (last_update +
+                                                              timedelta(seconds=(0 if len(news) == 0 else 42)))\
+                    .strftime("%d/%m/%Y %H:%M:%S")
             except Exception as exe:
                 print("Unexpected error for group " + group_manager.groups[group]["name"])
                 print(exe)

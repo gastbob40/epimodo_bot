@@ -5,7 +5,7 @@ from src.utils.embeds_manager import EmbedsManager
 
 class OnMemberJoin:
 
-    msg_fr: str = """Bienvenu sur le serveur {}.\n\n:red_circle: Pour avoir accès au serveur, vous devez 
+    msg_fr: str = """Bienvenue sur le serveur {}.\n\n:red_circle: Pour avoir accès au serveur, vous devez 
     prouver que vous êtes un étudiant de l'école. Pour cela, merci de vous manifester dans le channel #contacts_staff. 
     Un modérateur s'occupera de vous valider et de vous donner les bons rôles.\n\n:grey_question: Vous pouvez 
     mentionner @Modo si le staff ne remarque pas votre arrivée."""
