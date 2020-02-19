@@ -43,8 +43,8 @@ async def print_news(client: discord.Client, news_id: str, group:str, group_mana
     embed = EmbedsManager.newsgroup_embed(subject, tags, msg[0], author, date, group_manager.groups[group]["name"])
     for channel in group_manager.groups[group]["channels"]:
         await client.get_channel(channel).send(embed=embed)
-    for m in msg:
-        embed = EmbedsManager.newsgroup_filler_embed(m, author, date, group_manager.groups[group]["name"])
+    for i in range(1, len(msg)):
+        embed = EmbedsManager.newsgroup_filler_embed(msg[i], author, date, group_manager.groups[group]["name"])
         for channel in group_manager.groups[group]["channels"]:
             await client.get_channel(channel).send(embed=embed)
 
