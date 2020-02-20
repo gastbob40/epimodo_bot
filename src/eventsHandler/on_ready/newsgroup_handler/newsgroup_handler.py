@@ -54,18 +54,31 @@ async def print_news(client: discord.Client, news_id: str, group:str, group_mana
 async def get_news(client: discord.Client):
     group_manager = NewsGroupManager()
     group_manager.get_config()
-    group_manager.init_connection()
     while True:
-        for group in group_manager.groups:
-                last_update: datetime = datetime.strptime(group_manager.groups[group]["last_update"],
-                                                          "%d/%m/%Y %H:%M:%S")
-                _, news = group_manager.NNTP.newnews(group_manager.groups[group]["name"], last_update)
-                for i in news:
-                        d: datetime = await print_news(client, i, group, group_manager)
-                        if d > last_update:
-                            last_update = d
-                group_manager.groups[group]["last_update"] = (last_update +
-                                                              timedelta(seconds=(0 if len(news) == 0 else 42)))\
-                    .strftime("%d/%m/%Y %H:%M:%S")
-        await asyncio.sleep(int(group_manager.delta_time))
+        try:
+            group_manager.open_connection()
+            for group in group_manager.groups:
+                try:
+                    last_update: datetime = datetime.strptime(group_manager.groups[group]["last_update"],
+                                                              "%d/%m/%Y %H:%M:%S")
+                    _, news = group_manager.NNTP.newnews(group_manager.groups[group]["name"], last_update)
+                    for i in news:
+                        try:
+                            d: datetime = await print_news(client, i, group, group_manager)
+                            if d > last_update:
+                                last_update = d
+                        except Exception as exe:
+                            print("Unexpected error for news " + i)
+                            print(exe)
+                    group_manager.groups[group]["last_update"] = (last_update +
+                                                                  timedelta(seconds=(0 if len(news) == 0 else 42)))\
+                        .strftime("%d/%m/%Y %H:%M:%S")
+                except Exception as exe:
+                    print("Unexpected error for group " + group_manager.groups[group]["name"])
+                    print(exe)
+            group_manager.close_connection()
+            await asyncio.sleep(int(group_manager.delta_time))
+        except Exception as exe:
+            print("Error while updating")
+            print(exe)
 

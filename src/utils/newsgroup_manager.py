@@ -12,11 +12,19 @@ class NewsGroupManager:
     encoding: str = None
     delta_time: str = None
 
-    def init_connection(self):
+    def open_connection(self):
         try:
             self.NNTP = nntplib.NNTP(self.address)
-        except:
+        except Exception as e:
             print("Error when opening nntp connection")
+            raise e
+
+    def close_connection(self):
+        try:
+            self.NNTP.quit()
+        except Exception as e:
+            print("Error when closing nntp connection")
+            raise e
 
     def get_config(self):
         with open('run/config/newsgroups.yml', 'r') as file:

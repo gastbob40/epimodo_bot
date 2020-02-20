@@ -20,7 +20,7 @@ class OnMessage:
 
         await check_mentions(client, message)
 
-        if message.content and message.content[0] != '?':
+        if message.content and message.content[0] != '!':
             return
 
         command = message.content.split(' ')[0][1:]
