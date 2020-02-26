@@ -30,6 +30,5 @@ class NewsGroupManager:
         with open('run/config/newsgroups.yml', 'r') as file:
             config = yaml.safe_load(file)
         self.address = config["address"]
-        self.groups = config["groups"]
         self.encoding = config["encoding"]
         self.delta_time = config["delta_time"]

@@ -1,14 +1,4 @@
 address: news.epita.fr
-encoding: utf-8
 delta_time: 60
-groups:
-  assistants:
-    name: assistants.news
-    last_update: "18/02/2020 00:00:00"
-    channels:
-      - 678944434242715648 # list of channel ids
-  cri:
-    name: cri.news
-    last_update: "18/02/2020 00:00:00"
-    channels:
-      - 678944816821829633 # list of channel ids
+encoding: utf-8
+last_update: 9/02/2020 21:54:45
