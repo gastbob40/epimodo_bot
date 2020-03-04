@@ -89,9 +89,7 @@ async def get_news(client: discord.Client):
                     _, news = group_manager.NNTP.newnews(group['slug'], last_update)
                     for i in news:
                         try:
-                            d: datetime = await print_news(client, i, group, group_manager)
-                            if d > last_update:
-                                last_update = d
+                            await print_news(client, i, group, group_manager)
                         except Exception as exe:
                             print("Unexpected error for news " + i)
                             print(exe)
