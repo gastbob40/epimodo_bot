@@ -102,7 +102,7 @@ async def get_news(client: discord.Client):
             group_manager.close_connection()
 
             config["last_update"] = (datetime.now() +
-                                     timedelta(seconds=42).strftime("%d/%m/%Y %H:%M:%S"))
+                                     timedelta(seconds=42)).strftime("%d/%m/%Y %H:%M:%S")
 
             await asyncio.sleep(int(group_manager.delta_time))
         except Exception as exe:
