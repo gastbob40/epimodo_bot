@@ -107,4 +107,4 @@ async def get_news(client: discord.Client):
             await asyncio.sleep(int(group_manager.delta_time))
         except Exception as exe:
             print("Error while updating")
-        print(exe)
+            print(exe)
