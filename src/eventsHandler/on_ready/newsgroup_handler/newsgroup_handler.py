@@ -93,16 +93,13 @@ async def get_news(client: discord.Client):
                         except Exception as exe:
                             print("Unexpected error for news " + i)
                             print(exe)
-                        config["last_update"] = (last_update +
-                                                 timedelta(seconds=(0 if len(news) == 0 else 42))) \
-                            .strftime("%d/%m/%Y %H:%M:%S")
                 except Exception as exe:
                     print("Unexpected error for group " + group['name'])
                     print(exe)
             group_manager.close_connection()
 
             config["last_update"] = (datetime.now() +
-                                     timedelta(seconds=42)).strftime("%d/%m/%Y %H:%M:%S")
+                                     timedelta(seconds=5)).strftime("%d/%m/%Y %H:%M:%S")
 
             await asyncio.sleep(int(group_manager.delta_time))
         except Exception as exe:
