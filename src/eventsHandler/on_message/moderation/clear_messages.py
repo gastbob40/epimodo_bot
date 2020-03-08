@@ -21,7 +21,7 @@ async def clear_messages(client: discord.Client, message: discord.Message, args:
         )
 
     # Check lvl permissions
-    if results == 0 or results == 1:
+    if results == 0:
         return await message.channel.send(
             embed=EmbedsManager.error_embed("You don't have the necessary permissions.")
         )
