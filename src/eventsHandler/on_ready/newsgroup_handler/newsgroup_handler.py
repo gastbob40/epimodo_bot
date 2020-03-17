@@ -11,6 +11,19 @@ from src.utils.newsgroup_manager import NewsGroupManager
 
 api_manager = APIManager()
 
+date_format = ["%d/%m/%Y %H:%M:%S %z", "%d/%m/%Y %H:%M:%S %z %Z", "%d/%m/%Y %H:%M:%S", "%a, %d %b %Y %H:%M:%S %z",
+               "%a, %d %b %Y %H:%M:%S %z %Z"]
+
+
+def get_date(date:str) -> datetime:
+    for f in date_format:
+        try:
+            return datetime.strptime(date, f)
+        except Exception as e:
+            print("Err : " + str(e))
+            continue
+    return datetime.now()
+
 
 async def print_news(client: discord.Client, news_id: str, group: dict, group_manager: NewsGroupManager) -> datetime:
     info = dict()
@@ -25,10 +38,7 @@ async def print_news(client: discord.Client, news_id: str, group: dict, group_ma
         info[s[0]] = nntplib.decode_header(s[1])
     author = info["From"]
     subject = info["Subject"]
-    d = info["Date"][:25]
-    if d[-1] == " ":
-        d = d[:-1]
-    date = datetime.strptime(d, "%a, %d %b %Y %H:%M:%S")
+    date = get_date(info["Date"])
 
     _, body = group_manager.NNTP.body(news_id)
     content = ""
@@ -43,7 +53,7 @@ async def print_news(client: discord.Client, news_id: str, group: dict, group_ma
         s = s[1].split("]", 1)
     subject = s[0]
     # slice the msg in chunk of 5120 char
-    msg = [content[i:i + 5120] for i in range(0, len(content), 5120)]
+    msg = [content[i:i + 5117] for i in range(0, len(content), 5117)]
 
     # print msg in every channel newsgroup_filler_embed
     embed = EmbedsManager.newsgroup_embed(subject, tags, msg[0], author, date, group["name"])
@@ -53,7 +63,7 @@ async def print_news(client: discord.Client, news_id: str, group: dict, group_ma
         await client.get_channel(int(guild['channel_id'])).send(embed=embed)
 
     for i in range(1, len(msg)):
-        embed = EmbedsManager.newsgroup_filler_embed(msg[i], author, date, group["name"])
+        embed = EmbedsManager.newsgroup_filler_embed("..." + msg[i], author, date, group["name"])
         for guild in group['channels']:
             await client.get_channel(int(guild['channel_id'])).send(embed=embed)
 
