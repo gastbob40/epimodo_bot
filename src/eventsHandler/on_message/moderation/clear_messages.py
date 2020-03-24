@@ -21,7 +21,7 @@ async def clear_messages(client: discord.Client, message: discord.Message, args:
         )
 
     # Check lvl permissions
-    if results == 0:
+    if results != 3 and not message.author.permissions_in(message.channel).manage_messages:
         return await message.channel.send(
             embed=EmbedsManager.error_embed("You don't have the necessary permissions.")
         )
@@ -45,17 +45,17 @@ async def clear_messages(client: discord.Client, message: discord.Message, args:
                 "Error in the command. You must specify a valid number of message (limit to 100).")
         )
 
-    message_count = int(args[0])
+    message_count = int(args[0]) + 2
 
     if message_count <= 0 or message_count > 100:
         return await message.channel.send(
             embed=EmbedsManager.error_embed(
-                "Error in the command. You must specify a number of message between  1 and 100.")
+                "Error in the command. You must specify a number of message between  1 and 98.")
         )
 
     # Send message
     sent_message: discord.Message = await message.channel.send(
-        embed=EmbedsManager.complete_embed(f"Do you really want to delete {message_count} messages ?\n"
+        embed=EmbedsManager.complete_embed(f"Do you really want to delete {message_count - 2} messages ?\n"
                                            f"*You have 20s to accept.*")
     )
 
@@ -72,7 +72,17 @@ async def clear_messages(client: discord.Client, message: discord.Message, args:
         await message.channel.send(f"You have canceled the clear.")
     else:
         # check response
-        async for m in channel.history(limit=message_count):
-            await m.delete()
+        messages = await channel.history(limit=message_count).flatten()
 
-        await message.channel.send(f"The deletion of the messages was successfully completed")
+        try:
+            await message.channel.delete_messages(messages)
+            await message.channel.send(
+                embed=EmbedsManager.complete_embed(
+                    f"The deletion of the messages was successfully completed"
+                )
+            )
+
+        except discord.errors.HTTPException:
+            await message.channel.send(
+                embed=EmbedsManager.error_embed("You can only bulk delete messages that are under 14 days old.")
+            )
