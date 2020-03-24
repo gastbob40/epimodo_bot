@@ -42,7 +42,8 @@ class LogManager:
         main_channel_log = client.get_channel(692055209429565498)
         embed = EmbedsManager.error_embed(error_content)
         if main_channel_log:
-            embed.set_thumbnail(url=guild.icon_url)
+            if guild is not None:
+                embed.set_thumbnail(url=guild.icon_url)
             await main_channel_log.send(
                 embed=embed
             )
