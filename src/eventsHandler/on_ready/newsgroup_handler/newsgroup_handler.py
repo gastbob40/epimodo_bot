@@ -5,6 +5,7 @@ from datetime import datetime, timedelta
 import discord
 import yaml
 
+from src.utils.log_manager import LogManager
 from src.utils.api_manager import APIManager
 from src.utils.embeds_manager import EmbedsManager
 from src.utils.newsgroup_manager import NewsGroupManager
@@ -101,11 +102,9 @@ async def get_news(client: discord.Client):
                         try:
                             await print_news(client, i, group, group_manager)
                         except Exception as exe:
-                            print("Unexpected error for news " + i)
-                            print(exe)
+                            await LogManager.error_log(client, "Newsgroup error for news : {}\n{}".format(i, exe), None)
                 except Exception as exe:
-                    print("Unexpected error for group " + group['name'])
-                    print(exe)
+                    await LogManager.error_log(client, "Newsgroup error for group : {}\n{}".format(group, exe), None)
             group_manager.close_connection()
 
             config["last_update"] = (datetime.now() +
