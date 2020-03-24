@@ -77,6 +77,18 @@ pip install -r requirements.txt
 
 The `run/config` folder contains all the data of the program configuration.
 
+### config.default.yml
+
+This file contain all data about prefix and channels. This file looks like this:
+
+```yaml
+prefix: '!'
+channels:
+  channel_name: channel_id
+```
+
+You must fill in the file and rename it to `config.yml`.
+
 ### tokens.default.yml
 
 This file contain all data about tokens. This file looks like this:
