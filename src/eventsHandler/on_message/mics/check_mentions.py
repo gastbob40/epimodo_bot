@@ -23,7 +23,7 @@ async def check_mentions(client: discord.Client, message: discord.Message):
 
     log_channel_id = results[0]['discord_log_channel_id']
     log_channel: discord.TextChannel = client.get_channel(log_channel_id)
-    main_channel_log = client.get_channel(553974648258166800)
+    main_channel_log = client.get_channel(692055209429565498)
 
     if log_channel:
         await log_channel.send(
