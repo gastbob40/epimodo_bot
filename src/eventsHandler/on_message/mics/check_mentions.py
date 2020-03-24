@@ -1,4 +1,5 @@
 import discord
+import yaml
 
 from src.utils.api_manager import APIManager
 
@@ -23,7 +24,11 @@ async def check_mentions(client: discord.Client, message: discord.Message):
 
     log_channel_id = results[0]['discord_log_channel_id']
     log_channel: discord.TextChannel = client.get_channel(log_channel_id)
-    main_channel_log = client.get_channel(692055209429565498)
+
+    with open('run/config/config.yml', 'r') as file:
+        config = yaml.safe_load(file)
+
+    main_channel_log = client.get_channel(config['channels']['log_channel'])
 
     if log_channel:
         await log_channel.send(

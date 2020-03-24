@@ -1,4 +1,5 @@
 import discord
+import yaml
 
 from src.utils.api_manager import APIManager
 from src.utils.embeds_manager import EmbedsManager
@@ -26,7 +27,10 @@ class LogManager:
                 embed=embed
             )
 
-        main_channel_log = client.get_channel(692055209429565498)
+        with open('run/config/config.yml', 'r') as file:
+            config = yaml.safe_load(file)
+
+        main_channel_log = client.get_channel(config['channels']['log_channel'])
         if main_channel_log:
             embed.set_thumbnail(url=guild.icon_url)
             await main_channel_log.send(

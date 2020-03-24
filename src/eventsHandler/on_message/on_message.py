@@ -1,4 +1,5 @@
 import discord
+import yaml
 
 from src.eventsHandler.on_message.mics.check_mentions import check_mentions
 from src.eventsHandler.on_message.mics.get_server import get_server
@@ -18,9 +19,12 @@ class OnMessage:
         if message.author.bot:
             return
 
+        with open('run/config/config.yml', 'r') as file:
+            config = yaml.safe_load(file)
+
         await check_mentions(client, message)
 
-        if message.content and message.content[0] != '!':
+        if message.content and message.content[0] != config['prefix']:
             return
 
         command = message.content.split(' ')[0][1:]
