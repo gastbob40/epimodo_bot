@@ -26,7 +26,7 @@ class LogManager:
                 embed=embed
             )
 
-        main_channel_log = client.get_channel(553974648258166800)
+        main_channel_log = client.get_channel(692055209429565498)
         if main_channel_log:
             embed.set_thumbnail(url=guild.icon_url)
             await main_channel_log.send(
@@ -35,6 +35,15 @@ class LogManager:
 
     @staticmethod
     async def error_log(client: discord.Client, error_content: str, guild: discord.Guild):
+        main_channel_log = client.get_channel(692055209429565498)
+        embed = EmbedsManager.error_embed(error_content)
+        if main_channel_log:
+            embed.set_thumbnail(url=guild.icon_url)
+            await main_channel_log.send(
+                embed=embed
+            )
+        if guild is None:
+            return
         state, results = api_manager.get_data('servers', discord_id=guild.id)
 
         if not state:
@@ -42,16 +51,8 @@ class LogManager:
 
         log_channel_id = results[0]['discord_log_channel_id']
         log_channel: discord.TextChannel = client.get_channel(log_channel_id)
-        embed = EmbedsManager.error_embed(error_content)
 
         if log_channel:
             await log_channel.send(
-                embed=embed
-            )
-
-        main_channel_log = client.get_channel(553974648258166800)
-        if main_channel_log:
-            embed.set_thumbnail(url=guild.icon_url)
-            await main_channel_log.send(
                 embed=embed
             )
