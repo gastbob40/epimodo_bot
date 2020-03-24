@@ -46,6 +46,11 @@ async def print_news(client: discord.Client, news_id: str, group: dict, group_ma
     for l in body.lines:
         content += l.decode(group_manager.encoding) + "\n"
 
+    is_response = False
+    if subject[:4] == "Re: ":
+        subject=subject[5:]
+        is_response = True
+
     # get the tags
     tags = []
     s = subject.split("]", 1)
@@ -57,14 +62,14 @@ async def print_news(client: discord.Client, news_id: str, group: dict, group_ma
     msg = [content[i:i + 5117] for i in range(0, len(content), 5117)]
 
     # print msg in every channel newsgroup_filler_embed
-    embed = EmbedsManager.newsgroup_embed(subject, tags, msg[0], author, date, group["name"])
+    embed = EmbedsManager.newsgroup_embed(subject, tags, msg[0], author, date, group["name"], is_response)
 
     for guild in group['channels']:
         print(" - " + client.get_channel(int(guild['channel_id'])).name)
         await client.get_channel(int(guild['channel_id'])).send(embed=embed)
 
     for i in range(1, len(msg)):
-        embed = EmbedsManager.newsgroup_filler_embed("..." + msg[i], author, date, group["name"])
+        embed = EmbedsManager.newsgroup_filler_embed("..." + msg[i], author, date, group["name"], is_response)
         for guild in group['channels']:
             await client.get_channel(int(guild['channel_id'])).send(embed=embed)
 
