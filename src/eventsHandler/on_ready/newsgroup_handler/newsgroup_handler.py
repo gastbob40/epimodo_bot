@@ -48,7 +48,7 @@ async def print_news(client: discord.Client, news_id: str, group: dict, group_ma
 
     is_response = False
     if subject[:4] == "Re: ":
-        subject=subject[5:]
+        subject = subject[4:]
         is_response = True
 
     # get the tags
@@ -114,5 +114,4 @@ async def get_news(client: discord.Client):
 
             await asyncio.sleep(int(group_manager.delta_time))
         except Exception as exe:
-            print("Error while updating")
             await LogManager.error_log(client, "Newsgroup error while updating\n{}".format(exe), None)
