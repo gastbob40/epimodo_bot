@@ -18,6 +18,7 @@ class OnMemberJoin:
     @staticmethod
     async def run(client: discord.client, user: discord.member):
         guild: discord.guild = user.guild
+        pass # TODO TO FIX
         embed = EmbedsManager.welcome_msg_embed(OnMemberJoin.msg_fr.format(guild.name),
                                                 OnMemberJoin.msg_eng.format(guild.name))
         try:
