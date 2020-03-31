@@ -21,7 +21,7 @@ def get_date(date:str) -> datetime:
         try:
             return datetime.strptime(date, f)
         except Exception as e:
-            print("Err : " + str(e))
+            # print("Err : " + str(e))
             continue
     return datetime.now()
 
@@ -48,7 +48,7 @@ async def print_news(client: discord.Client, news_id: str, group: dict, group_ma
 
     is_response = False
     if subject[:4] == "Re: ":
-        subject=subject[5:]
+        subject = subject[4:]
         is_response = True
 
     # get the tags
@@ -63,9 +63,7 @@ async def print_news(client: discord.Client, news_id: str, group: dict, group_ma
 
     # print msg in every channel newsgroup_filler_embed
     embed = EmbedsManager.newsgroup_embed(subject, tags, msg[0], author, date, group["name"], is_response)
-
     for guild in group['channels']:
-        print(" - " + client.get_channel(int(guild['channel_id'])).name)
         await client.get_channel(int(guild['channel_id'])).send(embed=embed)
 
     for i in range(1, len(msg)):
@@ -99,7 +97,6 @@ async def get_news(client: discord.Client):
             # For each news group, do magic
             for group in res:
                 try:
-                    print(group['name'])
                     # Get last update from config
                     last_update: datetime = datetime.strptime(config["last_update"], "%d/%m/%Y %H:%M:%S")
                     _, news = group_manager.NNTP.newnews(group['slug'], last_update)
@@ -113,9 +110,8 @@ async def get_news(client: discord.Client):
             group_manager.close_connection()
 
             config["last_update"] = (datetime.now() +
-                                     timedelta(seconds=5)).strftime("%d/%m/%Y %H:%M:%S")
+                                     timedelta(seconds=1)).strftime("%d/%m/%Y %H:%M:%S")
 
             await asyncio.sleep(int(group_manager.delta_time))
         except Exception as exe:
-            print("Error while updating")
-            print(exe)
+            await LogManager.error_log(client, "Newsgroup error while updating\n{}".format(exe), None)
