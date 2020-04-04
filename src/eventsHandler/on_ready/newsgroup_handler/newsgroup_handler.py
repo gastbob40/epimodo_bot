@@ -1,6 +1,7 @@
 import asyncio
 import nntplib
 from datetime import datetime, timedelta
+import pytz
 
 import discord
 import yaml
@@ -98,7 +99,8 @@ async def get_news(client: discord.Client):
             for group in res:
                 try:
                     # Get last update from config
-                    last_update: datetime = datetime.strptime(config["last_update"], "%d/%m/%Y %H:%M:%S")
+                    last_update: datetime = datetime.strptime(config["last_update"], "%d/%m/%Y %H:%M:%S")\
+                                                    .astimezone(pytz.timezone("Europe/Paris"))
                     _, news = group_manager.NNTP.newnews(group['slug'], last_update)
                     for i in news:
                         try:
@@ -110,7 +112,8 @@ async def get_news(client: discord.Client):
             group_manager.close_connection()
 
             config["last_update"] = (datetime.now() +
-                                     timedelta(seconds=1)).strftime("%d/%m/%Y %H:%M:%S")
+                                     timedelta(seconds=1)).astimezone(pytz.timezone("Europe/Paris"))\
+                                                          .strftime("%d/%m/%Y %H:%M:%S")
 
             await asyncio.sleep(int(group_manager.delta_time))
         except Exception as exe:
