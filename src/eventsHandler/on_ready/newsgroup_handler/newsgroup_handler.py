@@ -27,7 +27,7 @@ def get_date(date:str) -> datetime:
     return datetime.now()
 
 
-async def print_news(client: discord.Client, news_id: str, group: dict, group_manager: NewsGroupManager) -> datetime:
+async def print_news(client: discord.Client, news_id: str, group: dict, group_manager: NewsGroupManager, i) -> datetime:
     info = dict()
     _, head = group_manager.NNTP.head(news_id)
     last = "NULL"
@@ -39,10 +39,10 @@ async def print_news(client: discord.Client, news_id: str, group: dict, group_ma
         last = s[0]
         info[s[0]] = nntplib.decode_header(s[1])
     author = info["From"]
-    subject = info["Subject"]
+    subject = info["Subject"] + str(id)
     date = get_date(info["Date"])
 
-    _, body = group_manager.NNTP.body(news_id)
+    _, body = group_manager.NNTP.body(i)
     content = ""
     for l in body.lines:
         content += l.decode(group_manager.encoding) + "\n"
@@ -102,9 +102,9 @@ async def get_news(client: discord.Client):
                     last_update: datetime = datetime.strptime(config["last_update"], "%d/%m/%Y %H:%M:%S")\
                                                     .astimezone(pytz.timezone("Europe/Paris"))
                     _, news = group_manager.NNTP.newnews(group['slug'], last_update)
-                    for i in news:
+                    for i, news_id in enumerate(news):
                         try:
-                            await print_news(client, i, group, group_manager)
+                            await print_news(client, news_id, group, group_manager, i)
                         except Exception as exe:
                             await LogManager.error_log(client, "Newsgroup error for news : {}\n{}".format(i, exe), None)
                 except Exception as exe:
