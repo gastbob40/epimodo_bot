@@ -17,7 +17,7 @@ date_format = ["%d/%m/%Y %H:%M:%S %z", "%d/%m/%Y %H:%M:%S %z %Z", "%d/%m/%Y %H:%
                "%a, %d %b %Y %H:%M:%S %z %Z"]
 
 
-def get_date(date:str) -> datetime:
+def get_date(date: str) -> datetime:
     for f in date_format:
         try:
             return datetime.strptime(date, f)
@@ -27,7 +27,8 @@ def get_date(date:str) -> datetime:
     return datetime.now()
 
 
-async def print_news(client: discord.Client, news_id: str, group: dict, group_manager: NewsGroupManager, i) -> datetime:
+async def print_news(client: discord.Client, news_id: str, group: dict, group_manager: NewsGroupManager,
+                     index: int) -> datetime:
     info = dict()
     _, head = group_manager.NNTP.head(news_id)
     last = "NULL"
@@ -39,10 +40,10 @@ async def print_news(client: discord.Client, news_id: str, group: dict, group_ma
         last = s[0]
         info[s[0]] = nntplib.decode_header(s[1])
     author = info["From"]
-    subject = info["Subject"] + str(id)
+    subject = info["Subject"]
     date = get_date(info["Date"])
 
-    _, body = group_manager.NNTP.body(i)
+    _, body = group_manager.NNTP.body(news_id)
     content = ""
     for l in body.lines:
         content += l.decode(group_manager.encoding) + "\n"
@@ -63,7 +64,8 @@ async def print_news(client: discord.Client, news_id: str, group: dict, group_ma
     msg = [content[i:i + 5117] for i in range(0, len(content), 5117)]
 
     # print msg in every channel newsgroup_filler_embed
-    embed = EmbedsManager.newsgroup_embed(subject, tags, msg[0], author, date, group["name"], is_response)
+    embed = EmbedsManager.newsgroup_embed(subject, tags, msg[0], str(index) + ' ' + author, date, group["name"],
+                                          is_response)
     for guild in group['channels']:
         await client.get_channel(int(guild['channel_id'])).send(embed=embed)
 
@@ -99,8 +101,8 @@ async def get_news(client: discord.Client):
             for group in res:
                 try:
                     # Get last update from config
-                    last_update: datetime = datetime.strptime(config["last_update"], "%d/%m/%Y %H:%M:%S")\
-                                                    .astimezone(pytz.timezone("Europe/Paris"))
+                    last_update: datetime = datetime.strptime(config["last_update"], "%d/%m/%Y %H:%M:%S") \
+                        .astimezone(pytz.timezone("Europe/Paris"))
                     _, news = group_manager.NNTP.newnews(group['slug'], last_update)
                     for i, news_id in enumerate(news):
                         try:
@@ -112,8 +114,8 @@ async def get_news(client: discord.Client):
             group_manager.close_connection()
 
             config["last_update"] = (datetime.now() +
-                                     timedelta(seconds=1)).astimezone(pytz.timezone("Europe/Paris"))\
-                                                          .strftime("%d/%m/%Y %H:%M:%S")
+                                     timedelta(seconds=1)).astimezone(pytz.timezone("Europe/Paris")) \
+                .strftime("%d/%m/%Y %H:%M:%S")
 
             await asyncio.sleep(int(group_manager.delta_time))
         except Exception as exe:
