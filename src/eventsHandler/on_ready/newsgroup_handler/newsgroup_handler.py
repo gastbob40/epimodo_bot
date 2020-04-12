@@ -29,6 +29,9 @@ def get_date(date: str) -> datetime:
 
 async def print_news(client: discord.Client, news_id: str, group: dict, group_manager: NewsGroupManager,
                      index: int) -> datetime:
+
+    for guild in group['channels']:
+        await client.get_channel(int(guild['channel_id'])).send("Function print called!")
     info = dict()
     _, head = group_manager.NNTP.head(news_id)
     last = "NULL"
