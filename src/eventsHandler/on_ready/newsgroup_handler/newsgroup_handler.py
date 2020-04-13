@@ -5,6 +5,7 @@ import pytz
 
 import discord
 import yaml
+import json
 
 from src.utils.log_manager import LogManager
 from src.utils.api_manager import APIManager
@@ -30,8 +31,9 @@ def get_date(date: str) -> datetime:
 async def print_news(client: discord.Client, news_id: str, group: dict, group_manager: NewsGroupManager,
                      index: int) -> datetime:
 
+    content = json.dumps(group)
     for guild in group['channels']:
-        await client.get_channel(int(guild['channel_id'])).send("Function print called!")
+        await client.get_channel(int(guild['channel_id'])).send("Function print called!\n\n" + content)
     info = dict()
     _, head = group_manager.NNTP.head(news_id)
     last = "NULL"
