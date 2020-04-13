@@ -98,6 +98,7 @@ async def get_news(client: discord.Client):
             # Check if we get a response from the API
             if not state:
                 return
+            await LogManager.error_log(client, "Updating for groups: {}\n".format(res), None)
 
             # Start the connection
             group_manager.open_connection()
@@ -111,7 +112,7 @@ async def get_news(client: discord.Client):
                     _, news = group_manager.NNTP.newnews(group['slug'], last_update)
                     for i, news_id in enumerate(news):
                         try:
-                            await print_news(client, news_id, group, group_manager, i)
+                            await print_news(client, news_id, group.copy(), group_manager, i)
                         except Exception as exe:
                             await LogManager.error_log(client, "Newsgroup error for news : {}\n{}".format(i, exe), None)
                 except Exception as exe:
