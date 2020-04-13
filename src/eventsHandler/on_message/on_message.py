@@ -5,6 +5,7 @@ from src.eventsHandler.on_message.mics.check_mentions import check_mentions
 from src.eventsHandler.on_message.mics.get_server import get_server
 from src.eventsHandler.on_message.mics.get_user import get_user
 from src.eventsHandler.on_message.mics.init_server import init_server
+from src.eventsHandler.on_message.mics.reload_bot import reload_bot
 from src.eventsHandler.on_message.moderation.add_ban import add_ban
 from src.eventsHandler.on_message.moderation.add_kick import add_kick
 from src.eventsHandler.on_message.moderation.add_mute import add_mute
@@ -32,6 +33,8 @@ class OnMessage:
 
         if command == 'init':
             await init_server(client, message, args)
+        if command == 'reload':
+            await reload_bot(client, message, args)
 
         # Sanctions manager
         elif command == 'warn':
