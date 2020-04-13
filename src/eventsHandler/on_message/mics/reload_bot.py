@@ -13,7 +13,9 @@ permissions_manager = PermissionsManager()
 
 async def reload_bot(client: discord.Client, message: discord.Message, args: List[str]):
     if message.author.id != 309653542354944000:
-        return
+        return await message.channel.send(
+            embed=EmbedsManager.error_embed("You don't have the necessary permissions.")
+        )
 
     try:
         repo = git.Repo()
