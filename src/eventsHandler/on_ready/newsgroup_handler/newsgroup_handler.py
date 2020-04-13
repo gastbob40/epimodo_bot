@@ -109,7 +109,8 @@ async def get_news(client: discord.Client):
                     last_update: datetime = datetime.strptime(config["last_update"], "%d/%m/%Y %H:%M:%S") \
                         .astimezone(pytz.timezone("Europe/Paris"))
                     _, news = group_manager.NNTP.newnews(group['slug'], last_update)
-                    await LogManager.error_log(client, "News: {}\n".format(news), None)
+                    if len(news) > 0:
+                        await LogManager.error_log(client, "News: {}\n".format(news), None)
                     for i, news_id in enumerate(news):
                         try:
                             await print_news(client, news_id, group.copy(), group_manager, i)
