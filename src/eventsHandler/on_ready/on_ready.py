@@ -14,7 +14,7 @@ class OnReady:
         with open('run/config/newsgroups.yml', 'r') as file:
             config = yaml.safe_load(file)
 
-        config['last_update'] = datetime.datetime.now().strftime("%d/%m/%Y %H:%M:%S")
+        # config['last_update'] = datetime.datetime.now().strftime("%d/%m/%Y %H:%M:%S")
 
         with open(r'run/config/newsgroups.yml', 'w') as file:
             documents = yaml.dump(config, file)

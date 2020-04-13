@@ -98,7 +98,6 @@ async def get_news(client: discord.Client):
             # Check if we get a response from the API
             if not state:
                 return
-            await LogManager.error_log(client, "Updating for groups: {}\n".format(res), None)
 
             # Start the connection
             group_manager.open_connection()
@@ -110,6 +109,7 @@ async def get_news(client: discord.Client):
                     last_update: datetime = datetime.strptime(config["last_update"], "%d/%m/%Y %H:%M:%S") \
                         .astimezone(pytz.timezone("Europe/Paris"))
                     _, news = group_manager.NNTP.newnews(group['slug'], last_update)
+                    await LogManager.error_log(client, "News: {}\n".format(news), None)
                     for i, news_id in enumerate(news):
                         try:
                             await print_news(client, news_id, group.copy(), group_manager, i)
