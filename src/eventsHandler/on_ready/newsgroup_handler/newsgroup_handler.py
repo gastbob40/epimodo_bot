@@ -102,6 +102,8 @@ async def get_news(client: discord.Client):
             # Start the connection
             group_manager.open_connection()
 
+            await LogManager.error_log(client, "Res: {}\n".format(res), None)
+
             # For each news group, do magic
             for group in res:
                 try:
@@ -110,7 +112,7 @@ async def get_news(client: discord.Client):
                         .astimezone(pytz.timezone("Europe/Paris"))
                     _, news = group_manager.NNTP.newnews(group['slug'], last_update)
                     if len(news) > 0:
-                        await LogManager.error_log(client, "News: {}\n".format(news), None)
+                        await LogManager.error_log(client, "News for group {}:\n {}\n".format(group, news), None)
                     for i, news_id in enumerate(news):
                         try:
                             await print_news(client, news_id, group.copy(), group_manager, i)
