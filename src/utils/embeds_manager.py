@@ -46,37 +46,6 @@ class EmbedsManager:
 
         return embed
 
-    colors = ["css\n", "http\n", "cs\n# ", "yaml\n", "md\n# ", ""]
-
-    @staticmethod
-    def newsgroup_embed(title, tags, msg, author, date: datetime, group, is_response):
-        if is_response:
-            embed = discord.Embed(color=0xc40c0c, title="Re:" + title)
-        else:
-            embed = discord.Embed(color=0x0080ff, title=title)
-        for tag in tags:
-            color = sum([ord(c) for c in tag]) % 5
-            embed.add_field(name="​", value="```{}{}```".format(EmbedsManager.colors[color], tag), inline=True)
-        parts = [msg[i:i+1024] for i in range(0, len(msg), 1024)]
-        embed.add_field(name="{}\n{}".format(author, date.strftime("%a, %d %b %Y %H:%M")), value=parts[0], inline=False)
-        for i in range(1, len(parts)):
-            embed.add_field(name="​", value=parts[i], inline=False)
-        embed.set_footer(text=group)
-        return embed
-
-    @staticmethod
-    def newsgroup_filler_embed(msg, author, date: datetime, group, is_response):
-        if is_response:
-            embed = discord.Embed(color=0xc40c0c)
-        else:
-            embed = discord.Embed(color=0x0080ff)
-        parts = [msg[i:i+1021] for i in range(0, len(msg), 1021)]
-        embed.add_field(name="{}\n{}".format(author, date.strftime("%a, %d %b %Y %H:%M")), value=parts[0], inline=False)
-        for i in range(1, len(parts)):
-            embed.add_field(name="​", value="..." + parts[i], inline=False)
-        embed.set_footer(text=group)
-        return embed
-
     @staticmethod
     def welcome_msg_embed(msg_fr, msg_eng):
         embed = discord.Embed(color=0x00ae00)
