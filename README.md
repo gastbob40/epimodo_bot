@@ -4,6 +4,8 @@
 ![python](https://img.shields.io/badge/Language-Python-blueviolet)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
+![EpiModo Banner](src/assets/banner.png)
+
 ## About
 
 EpiModo is a discord bot for server moderation, and includes several points:
