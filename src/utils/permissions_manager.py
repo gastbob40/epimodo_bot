@@ -33,7 +33,7 @@ class PermissionsManager:
         if member.id in permissions['dev']:
             return True, 3
 
-        if member.id in permissions['epilogin'] or admin_role in member.roles:
+        if admin_role in member.roles:
             return True, 2
 
         if modo_role in member.roles:
