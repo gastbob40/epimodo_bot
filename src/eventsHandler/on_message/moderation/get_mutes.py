@@ -52,7 +52,6 @@ async def get_mutes(client: discord.Client, message: discord.Message, args: List
         for channel in message.guild.channels:
             if not target.permissions_in(channel).send_messages:
                 channels.append(channel)
-        print(message.channel)
         await message.channel.send(
             embed=EmbedsManager.complete_embed(f"{target.display_name} is muted in the following channel(s) : "
                                                f"{', '.join([chan.name for chan in channels]) }.")
