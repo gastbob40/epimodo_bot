@@ -11,7 +11,7 @@ api_manager = APIManager()
 permissions_manager = PermissionsManager()
 
 
-async def remove_mute(client: discord.Client, message: discord.Message, args: List[str]):
+async def remove_general_mute(client: discord.Client, message: discord.Message, args: List[str]):
     state, results = permissions_manager.get_permissions(message.author, message.guild)
 
     if not state:
@@ -28,8 +28,8 @@ async def remove_mute(client: discord.Client, message: discord.Message, args: Li
     # Display help
     if args and args[0] == '-h':
         return await message.channel.send(
-            embed=EmbedsManager.information_embed("**UnMuting command reminder:**\n\n"
-                                                  "`!unmute <@user>`.")
+            embed=EmbedsManager.information_embed("**General UnMuting command reminder:**\n\n"
+                                                  "`!g_unmute <@user>`.")
         )
 
     # Check if target exist
@@ -72,7 +72,7 @@ async def remove_mute(client: discord.Client, message: discord.Message, args: Li
                           is_active=False
                           )
 
-    await LogManager.complete_log(client, 'unmutes', message.author, message.guild, "Unmute")
+    await LogManager.complete_log(client, 'general unmutes', message.author, message.guild, "General unmute")
 
     try:
         for channel in message.guild.channels:

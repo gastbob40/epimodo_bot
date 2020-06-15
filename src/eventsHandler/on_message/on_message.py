@@ -8,10 +8,13 @@ from src.eventsHandler.on_message.mics.init_server import init_server
 from src.eventsHandler.on_message.mics.reload_bot import reload_bot
 from src.eventsHandler.on_message.moderation.add_ban import add_ban
 from src.eventsHandler.on_message.moderation.add_kick import add_kick
-from src.eventsHandler.on_message.moderation.add_mute import add_mute
+from src.eventsHandler.on_message.moderation.add_general_mute import add_general_mute
+from src.eventsHandler.on_message.moderation.mute import mute
 from src.eventsHandler.on_message.moderation.add_warn import add_warn
 from src.eventsHandler.on_message.moderation.clear_messages import clear_messages
-from src.eventsHandler.on_message.moderation.remove_mute import remove_mute
+from src.eventsHandler.on_message.moderation.remove_general_mute import remove_general_mute
+from src.eventsHandler.on_message.moderation.unmute import unmute
+from src.eventsHandler.on_message.moderation.get_mutes import get_mutes
 
 
 class OnMessage:
@@ -43,10 +46,16 @@ class OnMessage:
             await add_kick(client, message, args)
         elif command == 'ban':
             await add_ban(client, message, args)
+        elif command == 'g_mute':
+            await add_general_mute(client, message, args)
+        elif command == 'g_unmute':
+            await remove_general_mute(client, message, args)
         elif command == 'mute':
-            await add_mute(client, message, args)
+            await mute(client, message, args)
+        elif command == 'get_mutes':
+            await get_mutes(client, message, args)
         elif command == 'unmute':
-            await remove_mute(client, message, args)
+            await unmute(client, message, args)
         elif command == 'clear':
             await clear_messages(client, message, args)
 

@@ -15,6 +15,7 @@ with open('run/config/tokens.yml', 'r') as file:
 
 client = discord.Client()
 
+
 @client.event
 async def on_message(message: discord.Message):
     await EventsHandler.on_message(client, message)
