@@ -40,6 +40,6 @@ async def unmute(client: discord.Client, reaction: discord.Reaction, user: disco
             embed=EmbedsManager.error_embed("Error in muting the member.")
         )
 
-    await LogManager.complete_log(client, 'mutes', reaction.message.author, reaction.message.guild,
-                                          f"muted {target.display_name} in channel : "
+    await LogManager.complete_log(client, 'unmutes', user, reaction.message.guild,
+                                          f"unmuted {target.display_name} in channel : "
                                           f"{reaction.message.channel }.", '')

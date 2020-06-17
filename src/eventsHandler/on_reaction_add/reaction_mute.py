@@ -35,16 +35,11 @@ async def mute(client: discord.Client, reaction: discord.Reaction, user: discord
                                           send_messages=False)
         else:
             return
-    except:
+    except Exception as e:
         await reaction.message.channel.send(
-            embed=EmbedsManager.error_embed("Error in muting the member.")
+            embed=EmbedsManager.error_embed(f"Error in muting the member : {e}")
         )
 
-    await reaction.message.channel.send(
-        embed=EmbedsManager.complete_embed(f"You just muted {target.display_name} in channel : "
-                                           f"{reaction.message.channel.name}.")
-    )
-
-    await LogManager.complete_log(client, 'mutes', reaction.message.author, reaction.message.guild,
+    await LogManager.complete_log(client, 'mutes', user, reaction.message.guild,
                                           f"muted {target.display_name} in channel(s) : "
                                            f"{reaction.message.channel.name}.", '')
