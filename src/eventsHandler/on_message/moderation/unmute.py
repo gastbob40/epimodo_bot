@@ -58,13 +58,10 @@ async def unmute(client: discord.Client, message: discord.Message, args: List[st
                                           f"unmuted {target.display_name} in channel(s) : "
                                           f"{' '.join([chan.name for chan in channels]) }.", '')
 
-    try:
-        for channel in channels:
+    for channel in channels:
+        try:
             if not target.permissions_in(channel).send_messages:
                 await channel.set_permissions(target,
                                               overwrite=None)
-
-    except:
-        await message.channel.send(
-            embed=EmbedsManager.error_embed("Error in muting the member.")
-        )
+        except:
+            pass

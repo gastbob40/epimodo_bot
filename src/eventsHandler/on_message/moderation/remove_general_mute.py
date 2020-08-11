@@ -58,6 +58,15 @@ async def remove_general_mute(client: discord.Client, message: discord.Message, 
     mute = results[0]
     mute['is_active'] = False
 
+    for channel in message.guild.channels:
+        try:
+            if not target.permissions_in(channel).send_messages:
+                await channel.set_permissions(target,
+                                              overwrite=None)
+        except:
+            pass
+
+
     await message.channel.send(
         embed=EmbedsManager.complete_embed(f"You just unmuted {target.display_name}.")
     )
@@ -73,13 +82,3 @@ async def remove_general_mute(client: discord.Client, message: discord.Message, 
                           )
 
     await LogManager.complete_log(client, 'general unmutes', message.author, message.guild, "General unmute")
-
-    try:
-        for channel in message.guild.channels:
-            if not target.permissions_in(channel).send_messages:
-                await channel.set_permissions(target,
-                                              overwrite=None)
-    except:
-        await message.channel.send(
-            embed=EmbedsManager.error_embed("Error in unmuting the member.")
-        )

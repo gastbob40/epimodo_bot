@@ -53,8 +53,8 @@ async def get_mutes(client: discord.Client, message: discord.Message, args: List
             if not target.permissions_in(channel).send_messages:
                 channels.append(channel)
         await message.channel.send(
-            embed=EmbedsManager.complete_embed(f"{target.display_name} is muted in the following channel(s) : "
-                                               f"{', '.join([chan.name for chan in channels]) }.")
+            embed=EmbedsManager.complete_embed(f"{target.display_name} is muted in the following channel(s) : " +
+                                               "{}.".format(',\n '.join([chan.name for chan in channels])))
         )
 
     except Exception as e:

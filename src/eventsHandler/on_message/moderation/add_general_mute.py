@@ -74,17 +74,14 @@ async def add_general_mute(client: discord.Client, message: discord.Message, arg
 
     await LogManager.complete_log(client, 'general mutes', message.author, message.guild, reason, image_url)
 
-    try:
-        await target.send(
-            embed=EmbedsManager.sanction_embed('Mute', message.guild, reason, image_url)
-        )
+    await target.send(
+        embed=EmbedsManager.sanction_embed('Mute', message.guild, reason, image_url)
+    )
 
-        for channel in message.guild.channels:
+    for channel in message.guild.channels:
+        try:
             if target.permissions_in(channel).read_messages:
                 await channel.set_permissions(target,
                                               send_messages=False)
-
-    except:
-        await message.channel.send(
-            embed=EmbedsManager.error_embed("Error in muting the member.")
-        )
+        except:
+            pass

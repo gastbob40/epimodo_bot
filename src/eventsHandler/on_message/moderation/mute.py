@@ -55,16 +55,13 @@ async def mute(client: discord.Client, message: discord.Message, args: List[str]
     )
 
     await LogManager.complete_log(client, 'mutes', message.author, message.guild,
-                                          f"muted {target.display_name} in channel(s) : "
-                                          f"{' '.join([chan.name for chan in channels]) }.", '')
+                                          f"muted {target.display_name} in channel(s) : " +
+                                          "{}.".format('\n'.join([chan.name for chan in channels])), '')
 
-    try:
-        for channel in channels:
+    for channel in channels:
+        try:
             if target.permissions_in(channel).read_messages:
                 await channel.set_permissions(target,
                                               send_messages=False)
-
-    except:
-        await message.channel.send(
-            embed=EmbedsManager.error_embed("Error in muting the member.")
-        )
+        except:
+            pass
