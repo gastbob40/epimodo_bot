@@ -7,6 +7,7 @@ from src.eventsHandler.on_message.mics.get_user import get_user
 from src.eventsHandler.on_message.mics.init_server import init_server
 from src.eventsHandler.on_message.mics.reload_bot import reload_bot
 from src.eventsHandler.on_message.moderation.add_ban import add_ban
+from src.eventsHandler.on_message.moderation.unban import unban
 from src.eventsHandler.on_message.moderation.add_kick import add_kick
 from src.eventsHandler.on_message.moderation.add_general_mute import add_general_mute
 from src.eventsHandler.on_message.moderation.mute import mute
@@ -46,6 +47,8 @@ class OnMessage:
             await add_kick(client, message, args)
         elif command == 'ban':
             await add_ban(client, message, args)
+        elif command == 'unban':
+            await unban(client, message, args)
         elif command == 'g_mute':
             await add_general_mute(client, message, args)
         elif command == 'g_unmute':

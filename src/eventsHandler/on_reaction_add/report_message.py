@@ -12,28 +12,22 @@ permissions_manager = PermissionsManager()
 async def report_message(client: discord.Client, reaction: discord.Reaction, user: discord.User):
     guild = reaction.message.guild
 
-    await reaction.remove(user)
-
     state, results = permissions_manager.get_permissions(user, guild)
 
     if not state:
-        return await reaction.message.channel.send(
-            embed=EmbedsManager.error_embed(results)
-        )
+        return
 
     # Check lvl permissions
     if results == 0:
-        return await reaction.message.channel.send(
-            embed=EmbedsManager.error_embed("You don't have the necessary permissions.")
-        )
+        return
 
     # Check role
     _, target_results = permissions_manager.get_permissions(reaction.message.author, guild)
 
     if target_results >= results:
-        return await reaction.message.channel.send(
-            embed=EmbedsManager.error_embed("You cannot warn someone greater than or equal to you.")
-        )
+        return
+
+    await reaction.remove(user)
 
     reason = reaction.message.content
 

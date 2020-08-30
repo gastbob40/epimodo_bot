@@ -38,7 +38,6 @@ class PermissionsManager:
 
         if modo_role in member.roles:
             return True, 1
-
         return True, 0
 
     @staticmethod
